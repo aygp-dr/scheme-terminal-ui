@@ -1,0 +1,68 @@
+gantt
+    title Guile Scheme Terminal UI Framework - Development Roadmap
+    dateFormat  YYYY-MM-DD
+    section Foundation
+    Project Setup           :done,    setup, 2025-08-02, 1d
+    Dependencies Install    :active,  deps, 2025-08-03, 2d
+    Terminal Interface Core :         terminal, after deps, 4d
+    Event System Foundation :         events, after terminal, 5d
+    
+    section Core Rendering
+    Screen Buffer Management:         buffer, after events, 6d
+    Text Rendering Engine   :         text-render, after buffer, 5d
+    Color and Style System  :         colors, after text-render, 4d
+    Cursor Management       :         cursor, after colors, 3d
+    
+    section Widget System
+    Base Widget Class       :         base-widget, after cursor, 5d
+    Layout Engine           :         layout, after base-widget, 6d
+    Container Widgets       :         containers, after layout, 4d
+    Input Widgets           :         inputs, after containers, 5d
+    
+    section Advanced Widgets
+    Text Widgets            :         text-widgets, after inputs, 4d
+    List and Table Widgets  :         lists, after text-widgets, 6d
+    Form Widgets            :         forms, after lists, 5d
+    Menu and Navigation     :         menus, after forms, 4d
+    
+    section Reactive System
+    State Management        :         state, after menus, 7d
+    Reactive Updates        :         reactive, after state, 6d
+    Event Propagation       :         propagation, after reactive, 5d
+    Data Binding            :         binding, after propagation, 6d
+    
+    section Layout Engine
+    Constraint Solver       :         constraints, after binding, 8d
+    Flex Layout             :         flex, after constraints, 5d
+    Grid Layout             :         grid, after flex, 6d
+    Responsive Design       :         responsive, after grid, 4d
+    
+    section Graphics and Art
+    ASCII Art Rendering     :         ascii-art, after responsive, 6d
+    Box Drawing Characters  :         box-drawing, after ascii-art, 4d
+    Unicode Support         :         unicode, after box-drawing, 5d
+    Image to ASCII          :         img-ascii, after unicode, 6d
+    
+    section Animation System
+    Animation Framework     :         animation, after img-ascii, 7d
+    Easing Functions        :         easing, after animation, 4d
+    Transition Effects      :         transitions, after easing, 5d
+    Performance Optimization:         perf, after transitions, 6d
+    
+    section Application Framework
+    Application Lifecycle   :         lifecycle, after perf, 5d
+    Configuration System    :         config, after lifecycle, 4d
+    Theme Support           :         themes, after config, 5d
+    Plugin Architecture     :         plugins, after themes, 6d
+    
+    section Testing & Quality
+    Widget Unit Tests       :         widget-tests, after plugins, 4d
+    Integration Tests       :         int-tests, after widget-tests, 5d
+    Visual Regression Tests :         visual-tests, after int-tests, 6d
+    Performance Benchmarks  :         benchmarks, after visual-tests, 4d
+    
+    section Example Applications
+    File Manager            :         file-manager, after benchmarks, 6d
+    Text Editor             :         text-editor, after file-manager, 7d
+    System Monitor          :         sys-monitor, after text-editor, 5d
+    Game Framework          :         games, after sys-monitor, 6d

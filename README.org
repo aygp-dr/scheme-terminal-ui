@@ -3,6 +3,11 @@
 #+DATE: 2025-08-02
 #+PROPERTY: header-args:scheme :session *guile* :results output :exports both
 
+[[https://github.com/aygp-dr/scheme-terminal-ui][https://img.shields.io/badge/Guile-Scheme-blue.svg]]
+[[https://github.com/aygp-dr/scheme-terminal-ui/actions][https://img.shields.io/github/actions/workflow/status/aygp-dr/scheme-terminal-ui/ci.yml?branch=main]]
+[[https://github.com/aygp-dr/scheme-terminal-ui/blob/main/LICENSE][https://img.shields.io/badge/License-MIT-green.svg]]
+[[https://github.com/aygp-dr/scheme-terminal-ui/issues][https://img.shields.io/github/issues/aygp-dr/scheme-terminal-ui.svg]]
+
 * Guile Scheme Terminal UI Framework
 
 A declarative, functional terminal user interface framework for Guile Scheme, emphasizing composable widgets, reactive programming, and elegant ASCII art integration.
