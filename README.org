@@ -1,0 +1,291 @@
+#+TITLE: Guile Scheme Terminal UI Framework
+#+AUTHOR: aygp-dr
+#+DATE: 2025-08-02
+#+PROPERTY: header-args:scheme :session *guile* :results output :exports both
+
+* Guile Scheme Terminal UI Framework
+
+A declarative, functional terminal user interface framework for Guile Scheme, emphasizing composable widgets, reactive programming, and elegant ASCII art integration.
+
+** Overview
+
+This framework brings modern UI paradigms to terminal applications:
+
+- Declarative widget composition using S-expressions
+- Reactive state management with functional updates
+- Composable layout system with constraint solving
+- Rich text rendering with ASCII art integration
+- Event-driven architecture with pure functional updates
+
+** Intersections with Existing Projects
+
+- *termart*: ASCII art rendering and terminal display techniques
+- *qtd*: Task management and productivity UI patterns
+- *scope-safari*: Cross-platform terminal compatibility
+- *pyte-game-tests*: Terminal graphics and interaction patterns
+
+** Core Architecture
+
+*** Declarative Widget System
+#+BEGIN_SRC scheme
+;; Compose UIs using S-expressions
+(define main-ui
+  `(vbox
+     (text "Welcome to Scheme Terminal UI" #:align center #:style bold)
+     (hbox
+       (button "File" #:action file-menu)
+       (button "Edit" #:action edit-menu)
+       (button "View" #:action view-menu))
+     (hsplit
+       (listbox files #:on-select open-file)
+       (textbox content #:editable #t))
+     (statusbar status-text)))
+
+;; Render with automatic layout
+(render-ui main-ui)
+#+END_SRC
+
+*** Reactive State Management
+#+BEGIN_SRC scheme
+;; Functional state updates
+(define-state app-state
+  (files '())
+  (current-file #f)
+  (content "")
+  (status "Ready"))
+
+;; Pure update functions
+(define (open-file state filename)
+  (update-state state
+    (current-file filename)
+    (content (read-file filename))
+    (status (format #f "Opened ~a" filename))))
+
+;; Reactive UI updates
+(watch-state app-state
+  (lambda (old-state new-state)
+    (when (state-changed? 'content old-state new-state)
+      (redraw-widget 'textbox))))
+#+END_SRC
+
+*** Event System
+#+BEGIN_SRC scheme
+;; Event handling with pattern matching
+(define-event-handler main-handler
+  (('key key)
+   (match key
+     (#\q (quit-application))
+     (#\tab (cycle-focus))
+     (other (forward-to-focused-widget key))))
+  
+  (('mouse button x y)
+   (let ((widget (widget-at-position x y)))
+     (send-mouse-event widget button x y)))
+  
+  (('resize width height)
+   (relayout-ui width height)))
+#+END_SRC
+
+** Advanced Features
+
+*** Constraint-Based Layout
+#+BEGIN_SRC scheme
+;; Flexible layout with constraints
+(define-layout main-layout
+  (constraints
+    (= (width toolbar) (width window))
+    (= (height sidebar) (- (height window) (height toolbar)))
+    (>= (width editor) (* 0.6 (width window)))
+    (align-top toolbar window)
+    (align-left sidebar toolbar)))
+
+;; Automatic constraint solving
+(solve-layout main-layout)
+#+END_SRC
+
+*** Rich Text and ASCII Art
+#+BEGIN_SRC scheme
+;; Styled text rendering
+(define styled-text
+  `(paragraph
+     (text "Welcome to " #:style normal)
+     (text "Scheme UI" #:style (bold blue))
+     (newline)
+     (ascii-art "
+    ╭─────────────╮
+    │ ♥ Scheme UI │
+    ╰─────────────╯")
+     (newline)
+     (text "Version 1.0" #:style (italic gray))))
+
+;; Advanced text features
+(render-styled-text styled-text)
+#+END_SRC
+
+*** Animation and Transitions
+#+BEGIN_SRC scheme
+;; Functional animations
+(define-animation slide-in
+  (duration 0.5)
+  (easing ease-out)
+  (property x (from -100) (to 0)))
+
+;; Compose animations
+(animate-widget sidebar slide-in
+  #:on-complete (lambda () (set-widget-visible! content #t)))
+#+END_SRC
+
+** Widget Library
+
+*** Core Widgets
+#+BEGIN_SRC scheme
+;; Basic text display
+(text "Hello World" #:color 'green #:style 'bold)
+
+;; Interactive input
+(textbox content
+  #:multiline #t
+  #:on-change update-content
+  #:syntax-highlight 'scheme)
+
+;; Lists and selections
+(listbox items
+  #:multiple-selection #t
+  #:on-select handle-selection
+  #:filter filter-predicate)
+
+;; Buttons and actions
+(button "Save"
+  #:enabled (not (string-null? content))
+  #:on-click save-file
+  #:style 'primary)
+#+END_SRC
+
+*** Layout Widgets
+#+BEGIN_SRC scheme
+;; Flexible containers
+(vbox widgets #:spacing 1 #:padding 2)
+(hbox widgets #:distribution 'equal)
+(grid widgets #:columns 3 #:auto-resize #t)
+
+;; Advanced layouts
+(tabbed-panel
+  ("Files" file-browser)
+  ("Search" search-panel)
+  ("Settings" config-panel))
+
+(split-panel orientation: 'horizontal
+             ratio: 0.3
+             left: file-tree
+             right: editor)
+#+END_SRC
+
+*** Specialized Widgets
+#+BEGIN_SRC scheme
+;; Progress indicators
+(progress-bar value: 0.7 format: "~a% complete")
+(spinner #:style 'dots)
+
+;; Data visualization
+(bar-chart data #:labels labels #:colors colors)
+(table data
+  #:headers '("Name" "Size" "Modified")
+  #:sortable #t
+  #:filterable #t)
+
+;; Terminal graphics
+(canvas width: 80 height: 24
+  #:drawing-commands draw-commands)
+#+END_SRC
+
+** Application Examples
+
+*** File Manager
+#+BEGIN_SRC scheme
+(define file-manager
+  `(vbox
+     (toolbar
+       (button "New" #:action new-file)
+       (button "Open" #:action open-file)
+       (button "Save" #:action save-file))
+     (hsplit ratio: 0.3
+       (file-tree path: (getcwd)
+                  #:on-select select-file)
+       (editor content: file-content
+               #:language (detect-language current-file)))
+     (statusbar
+       (text (format #f "~a | Line ~a, Col ~a"
+                     current-file line-number column-number)))))
+#+END_SRC
+
+*** System Monitor
+#+BEGIN_SRC scheme
+(define system-monitor
+  `(vbox
+     (hbox
+       (gauge cpu-usage #:label "CPU" #:max 100 #:color 'blue)
+       (gauge memory-usage #:label "Memory" #:max 100 #:color 'green)
+       (gauge disk-usage #:label "Disk" #:max 100 #:color 'yellow))
+     (table processes
+       #:headers '("PID" "Name" "CPU%" "Memory")
+       #:sortable #t)
+     (log-viewer system-log #:auto-scroll #t)))
+#+END_SRC
+
+## Installation and Usage
+
+#+BEGIN_SRC bash
+git clone https://github.com/aygp-dr/scheme-terminal-ui.git
+cd scheme-terminal-ui
+
+# Install dependencies
+make install-deps
+
+# Build the framework
+make build
+
+# Run example applications
+make run-examples
+
+# Install system-wide
+sudo make install
+#+END_SRC
+
+*** Basic Application
+#+BEGIN_SRC scheme
+#!/usr/bin/env guile
+(use-modules (terminal-ui core)
+             (terminal-ui widgets)
+             (terminal-ui events))
+
+;; Simple hello world application
+(define hello-app
+  `(vbox
+     (text "Hello, Terminal UI!" #:style bold #:align center)
+     (button "Click Me!" #:on-click (λ () (display "Button clicked!")))))
+
+;; Run the application
+(run-app hello-app)
+#+END_SRC
+
+## Architecture Details
+
+- ~src/core/~ :: Core rendering engine and state management
+- ~src/widgets/~ :: Widget implementations and behaviors
+- ~src/layout/~ :: Constraint-based layout system
+- ~src/events/~ :: Event handling and dispatch
+- ~src/graphics/~ :: ASCII art and terminal graphics
+- ~src/themes/~ :: Styling and theming system
+- ~examples/~ :: Example applications and tutorials
+
+## Performance Features
+
+- Efficient terminal rendering with minimal redraws
+- Lazy evaluation for large datasets
+- Background processing for non-blocking operations
+- Memory-conscious widget recycling
+- Optimized constraint solving algorithms
+
+## License
+
+MIT License - Modern terminal interfaces for the Scheme ecosystem.
