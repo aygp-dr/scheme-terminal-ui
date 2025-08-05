@@ -1,0 +1,46 @@
+# Compiled files
+*.go
+*.zo
+*.o
+*.so
+*.a
+
+# Guile auto-compilation cache
+.cache/
+*/.cache/
+
+# Editor backup files
+*~
+#*#
+.#*
+*.swp
+*.swo
+.DS_Store
+
+# Build artifacts
+build/
+dist/
+*.tar.gz
+*.zip
+
+# Local configuration
+.local/
+config.local
+
+# Documentation builds
+doc/build/
+*.html
+*.pdf
+
+# Test artifacts
+test-results/
+coverage/
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# OS specific
+.DS_Store
+Thumbs.db

@@ -11,6 +11,8 @@
 
 A declarative, functional terminal user interface framework for Guile Scheme, emphasizing composable widgets, reactive programming, and elegant ASCII art integration.
 
+*Status: Version 0.1.0 - Basic framework established with core functionality*
+
 ** Overview
 
 This framework brings modern UI paradigms to terminal applications:
@@ -236,51 +238,75 @@ This framework brings modern UI paradigms to terminal applications:
      (log-viewer system-log #:auto-scroll #t)))
 #+END_SRC
 
-## Installation and Usage
+** Installation and Usage
+
+*** Quick Start
 
 #+BEGIN_SRC bash
 git clone https://github.com/aygp-dr/scheme-terminal-ui.git
 cd scheme-terminal-ui
 
-# Install dependencies
-make install-deps
-
-# Build the framework
-make build
+# Check dependencies (requires Guile Scheme)
+make check-deps
 
 # Run example applications
 make run-examples
 
-# Install system-wide
-sudo make install
+# Run tests
+make test
 #+END_SRC
 
+*** Current Status (v0.1.0)
+
+The framework currently includes:
+- Core rendering engine with basic widget support
+- Text widgets with styling options
+- Button widgets with action handlers
+- Layout containers (vbox, hbox)
+- Basic application state management
+- Working examples and test suite
+
+*Note: This is an early development version. Many advanced features described below are planned for future releases.*
+
 *** Basic Application
+
 #+BEGIN_SRC scheme
 #!/usr/bin/env guile
+!#
+(add-to-load-path "src")
 (use-modules (terminal-ui core)
-             (terminal-ui widgets)
-             (terminal-ui events))
+             (terminal-ui widgets))
 
 ;; Simple hello world application
 (define hello-app
-  `(vbox
-     (text "Hello, Terminal UI!" #:style bold #:align center)
-     (button "Click Me!" #:on-click (λ () (display "Button clicked!")))))
+  (vbox
+    (text "Hello, Terminal UI!" #:style 'bold #:align 'center)
+    (text "")
+    (hbox
+      (button "File")
+      (button "Edit")
+      (button "View"))
+    (text "")
+    (text "Welcome to version 0.1.0!")))
 
 ;; Run the application
 (run-app hello-app)
 #+END_SRC
 
-## Architecture Details
+This example demonstrates the current working functionality. Run it with ~guile examples/basic-ui.scm~.
 
-- ~src/core/~ :: Core rendering engine and state management
-- ~src/widgets/~ :: Widget implementations and behaviors
-- ~src/layout/~ :: Constraint-based layout system
-- ~src/events/~ :: Event handling and dispatch
-- ~src/graphics/~ :: ASCII art and terminal graphics
-- ~src/themes/~ :: Styling and theming system
+** Project Structure
+
+- ~src/terminal-ui/~ :: Framework source code
+  - ~core.scm~ :: Core rendering engine and state management
+  - ~widgets.scm~ :: Widget implementations and behaviors
+  - ~layout/~ :: Layout system (planned)
+  - ~events/~ :: Event handling (planned)
+  - ~graphics/~ :: ASCII art and terminal graphics (planned)
+  - ~themes/~ :: Styling and theming system (planned)
 - ~examples/~ :: Example applications and tutorials
+- ~tests/~ :: Test suite
+- ~experiments/~ :: Development experiments and utilities
 
 ## Performance Features
 

@@ -1,0 +1,124 @@
+%%%% Starting test terminal-ui-basic
+Group begin: terminal-ui-basic
+Test begin:
+  test-name: "version-check"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 15
+  source-form: (test-equal "version-check" "0.1.0" version)
+Test end:
+  result-kind: pass
+  actual-value: "0.1.0"
+  expected-value: "0.1.0"
+Test begin:
+  test-name: "state-creation"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 19
+  source-form: (test-assert "state-creation" (hash-table? state))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "state-update"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 22
+  source-form: (test-assert "state-update" (hash-table? updated-state))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "state-value-updated"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 23
+  source-form: (test-equal "state-value-updated" (quote new-value) (hash-ref updated-state (quote key1)))
+Test end:
+  result-kind: pass
+  actual-value: new-value
+  expected-value: new-value
+Test begin:
+  test-name: "state-value-preserved"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 24
+  source-form: (test-equal "state-value-preserved" (quote value2) (hash-ref updated-state (quote key2)))
+Test end:
+  result-kind: pass
+  actual-value: value2
+  expected-value: value2
+Test begin:
+  test-name: "state-value-added"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 25
+  source-form: (test-equal "state-value-added" (quote value3) (hash-ref updated-state (quote key3)))
+Test end:
+  result-kind: pass
+  actual-value: value3
+  expected-value: value3
+Test begin:
+  test-name: "text-widget-creation"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 29
+  source-form: (test-assert "text-widget-creation" (pair? text-widget))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "text-widget-type"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 30
+  source-form: (test-equal "text-widget-type" (quote text) (car text-widget))
+Test end:
+  result-kind: pass
+  actual-value: text
+  expected-value: text
+Test begin:
+  test-name: "button-widget-creation"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 33
+  source-form: (test-assert "button-widget-creation" (pair? button-widget))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "button-widget-type"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 34
+  source-form: (test-equal "button-widget-type" (quote button) (car button-widget))
+Test end:
+  result-kind: pass
+  actual-value: button
+  expected-value: button
+Test begin:
+  test-name: "vbox-creation"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 38
+  source-form: (test-assert "vbox-creation" (pair? vbox-widget))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "vbox-type"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 39
+  source-form: (test-equal "vbox-type" (quote vbox) (car vbox-widget))
+Test end:
+  result-kind: pass
+  actual-value: vbox
+  expected-value: vbox
+Test begin:
+  test-name: "hbox-creation"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 42
+  source-form: (test-assert "hbox-creation" (pair? hbox-widget))
+Test end:
+  result-kind: pass
+  actual-value: #t
+Test begin:
+  test-name: "hbox-type"
+  source-file: "/home/dsp-dr/ghq/github.com/aygp-dr/scheme-terminal-ui/tests/basic-test.scm"
+  source-line: 43
+  source-form: (test-equal "hbox-type" (quote hbox) (car hbox-widget))
+Test end:
+  result-kind: pass
+  actual-value: hbox
+  expected-value: hbox
+Group end: terminal-ui-basic
+# of expected passes      14

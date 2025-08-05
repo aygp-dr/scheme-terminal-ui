@@ -1,4 +1,5 @@
 #!/usr/bin/env guile
+!#
 ;; Dependency Check for Guile Scheme Terminal UI Framework
 ;; Confirms Guile 3.0+ and terminal/IO capabilities
 
