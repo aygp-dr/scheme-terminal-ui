@@ -5,6 +5,7 @@ GUILD = guild
 
 # Project metadata
 PROJECT_NAME = scheme-terminal-ui
+PROJECT_ROOT = $(shell pwd)
 VERSION = 0.1.0
 
 # Directories
@@ -108,6 +109,45 @@ repl:
 	@echo "Starting Guile REPL with project loaded..."
 	@$(GUILE)
 
+# Tmux session for development with Emacs
+.PHONY: dev-session
+dev-session:
+	@echo "Starting tmux development session for $(PROJECT_NAME)..."
+	@if tmux has-session -t $(PROJECT_NAME) 2>/dev/null; then \
+		echo "Session $(PROJECT_NAME) already exists. Attaching..."; \
+		tmux attach-session -t $(PROJECT_NAME); \
+	else \
+		echo "Creating new tmux session $(PROJECT_NAME) with Emacs..."; \
+		tmux new-session -d -s $(PROJECT_NAME) -c $(PROJECT_ROOT) "emacs -nw -Q -l $(PROJECT_ROOT)/$(PROJECT_NAME).el"; \
+		tmux split-window -h -t $(PROJECT_NAME) -c $(PROJECT_ROOT); \
+		tmux send-keys -t $(PROJECT_NAME):0.1 "make repl" Enter; \
+		tmux select-pane -t $(PROJECT_NAME):0.0; \
+		echo "Session created. Attaching..."; \
+		tmux attach-session -t $(PROJECT_NAME); \
+	fi
+
+# Get TTY of tmux pane
+.PHONY: get-tty
+get-tty:
+	@if tmux has-session -t $(PROJECT_NAME) 2>/dev/null; then \
+		echo "TTY devices for $(PROJECT_NAME) session:"; \
+		tmux list-panes -t $(PROJECT_NAME) -F "Pane ##{pane_index}: #{pane_tty}"; \
+	else \
+		echo "No tmux session '$(PROJECT_NAME)' found."; \
+		echo "Run 'make dev-session' to create one."; \
+	fi
+
+# Kill tmux session
+.PHONY: kill-session
+kill-session:
+	@if tmux has-session -t $(PROJECT_NAME) 2>/dev/null; then \
+		echo "Killing tmux session $(PROJECT_NAME)..."; \
+		tmux kill-session -t $(PROJECT_NAME); \
+		echo "Session killed."; \
+	else \
+		echo "No tmux session '$(PROJECT_NAME)' found."; \
+	fi
+
 .PHONY: version
 version:
 	@echo "$(PROJECT_NAME) version $(VERSION)"
@@ -127,5 +167,8 @@ help:
 	@echo "  install      - Install system-wide (not implemented)"
 	@echo "  uninstall    - Remove system installation (not implemented)"
 	@echo "  repl         - Start Guile REPL"
+	@echo "  dev-session  - Start tmux session with Emacs for development"
+	@echo "  get-tty      - Get TTY devices of tmux panes"
+	@echo "  kill-session - Kill the development tmux session"
 	@echo "  version      - Show version information"
 	@echo "  help         - Show this help message"
